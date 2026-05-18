@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="10" failures="4" errors="0" time="1.296">
+    <testsuite name="tests/app.spec.js" timestamp="2026-05-17T12:32:44.774Z" hostname="DESKTOP-H5QG3NC" tests="4" failures="0" errors="0" skipped="0" time="0.005">
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; calculates totals correctly" time="0.003">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; creates trimmed task objects" time="0">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; builds readable task summaries" time="0">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; renders task items into DOM nodes" time="0.001">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/flaky.spec.js" timestamp="2026-05-17T12:32:44.780Z" hostname="DESKTOP-H5QG3NC" tests="6" failures="4" errors="0" skipped="0" time="0.555">
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; retries a slow service call until it succeeds" time="0.101">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; validates the timeout signature" time="0.175">
+            <failure message="Network timeout while calling task service" type="Error">
+Error: Network timeout while calling task service
+ ❯ Module.fetchTaskStatus src/tasks.js:38:11
+ ❯ tests/flaky.spec.js:15:7
+            </failure>
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; exercises race behavior" time="0.053">
+            <failure message="Race condition detected during task fetch" type="Error">
+Error: Race condition detected during task fetch
+ ❯ Timeout._onTimeout src/tasks.js:56:31
+            </failure>
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; handles missing DOM containers gracefully" time="0.001">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Semantic failure cluster &gt; checks service timeout reporting" time="0.132">
+            <failure message="Network timeout while calling task service" type="Error">
+Error: Network timeout while calling task service
+ ❯ Module.fetchTaskStatus src/tasks.js:38:11
+ ❯ tests/flaky.spec.js:39:7
+            </failure>
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Semantic failure cluster &gt; checks retry timeout policy" time="0.091">
+            <failure message="Network timeout while calling task service" type="Error">
+Error: Network timeout while calling task service
+ ❯ fetchTaskStatus src/tasks.js:38:11
+ ❯ Module.retryFetchTaskStatus src/tasks.js:70:14
+ ❯ tests/flaky.spec.js:47:7
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>

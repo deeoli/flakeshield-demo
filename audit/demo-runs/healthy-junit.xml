@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="10" failures="0" errors="0" time="0.867">
+    <testsuite name="tests/app.spec.js" timestamp="2026-05-17T12:32:41.715Z" hostname="DESKTOP-H5QG3NC" tests="4" failures="0" errors="0" skipped="0" time="0.004">
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; calculates totals correctly" time="0.001">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; creates trimmed task objects" time="0.001">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; builds readable task summaries" time="0">
+        </testcase>
+        <testcase classname="tests/app.spec.js" name="Core task helpers &gt; renders task items into DOM nodes" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/flaky.spec.js" timestamp="2026-05-17T12:32:41.723Z" hostname="DESKTOP-H5QG3NC" tests="6" failures="0" errors="0" skipped="0" time="0.146">
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; retries a slow service call until it succeeds" time="0.022">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; validates the timeout signature" time="0.031">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; exercises race behavior" time="0.029">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Flaky integration scenarios &gt; handles missing DOM containers gracefully" time="0.001">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Semantic failure cluster &gt; checks service timeout reporting" time="0.029">
+        </testcase>
+        <testcase classname="tests/flaky.spec.js" name="Semantic failure cluster &gt; checks retry timeout policy" time="0.031">
+        </testcase>
+    </testsuite>
+</testsuites>

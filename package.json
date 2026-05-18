@@ -1,0 +1,17 @@
+{
+  "name": "flakeshield-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node -e \"import('fs').then(fs=>fs.mkdirSync('test-results',{recursive:true}))\" && vitest run --reporter=verbose --reporter=junit --outputFile=test-results/junit.xml",
+    "test:healthy": "cross-env FLAKE_MODE=healthy npm test",
+    "test:flaky": "cross-env FLAKE_MODE=flaky npm test"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^8.0.2",
+    "cross-env": "^7.0.3",
+    "happy-dom": "^5.0.10",
+    "vitest": "^1.5.3"
+  }
+}

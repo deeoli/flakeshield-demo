@@ -1,0 +1,49 @@
+name: FlakeShield Demo
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-flake-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run healthy tests
+        run: |
+          mkdir -p test-results
+          FLAKE_MODE=healthy npx vitest run --reporter=verbose --reporter=junit --outputFile=test-results/junit-healthy.xml || true
+
+      - name: Run flaky tests  
+        run: |
+          FLAKE_MODE=flaky npx vitest run --reporter=verbose --reporter=junit --outputFile=test-results/junit-flaky.xml || true
+
+      - name: Analyze test results with FlakeShield
+        uses: deeoli/flakeshield-scratch@v0.5.2
+        with:
+          reports: 'test-results/*.xml'
+          enable_semantic: 'true'
+          enable_pr_comment: 'true'
+          out_prefix: 'outputs/flake_report'
+          db_path: 'outputs/flakeshield.db'
+
+      - name: Upload CI artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flakeshield-demo-output
+          path: |
+            outputs
+            test-results

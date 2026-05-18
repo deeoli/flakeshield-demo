@@ -1,0 +1,7 @@
+node_modules/
+test-results/
+outputs/
+.flakecache
+*.log
+*.zip
+flakeshield-demo-output/
