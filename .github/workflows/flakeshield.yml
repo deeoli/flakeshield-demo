@@ -32,7 +32,7 @@ jobs:
           FLAKE_MODE=flaky npx vitest run --reporter=verbose --reporter=junit --outputFile=test-results/junit-flaky.xml || true
 
       - name: Analyze test results with FlakeShield
-        uses: deeoli/flakeshield-scratch@v0.5.2
+        uses: deeoli/flakeshield-action@v0.6.0-beta.1
         with:
           reports: 'test-results/*.xml'
           enable_semantic: 'true'
