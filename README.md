@@ -58,8 +58,26 @@ In GitHub Actions, FlakeShield compares these runs and surfaces repeated failure
 
 ## Real Output Examples
 
-- [FlakeShield Markdown Report](./examples/flake_report.md)
-- [PR Comment Example](./examples/pr_comment.md)
+### Healthy Run
+
+![Healthy run](docs/images/healthy-run.png)
+
+No failures, no flaky tests, stable history.
+
+### Failure Analysis
+
+![Failure analysis](docs/images/failure-heavy.png)
+
+FlakeShield surfaces recurring failures, flaky behaviour, and high-risk issues.
+
+### PR Comment Output
+
+![PR comment output](docs/images/pr-comment.png)
+
+Compact pull request summaries highlighting what deserves attention first.
+
+- [flake_report.md](./examples/flake_report.md)
+- [pr_comment.md](./examples/pr_comment.md)
 
 ---
 
