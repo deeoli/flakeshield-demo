@@ -1,0 +1,57 @@
+================================================================================
+CI RUN #1847 — FAILED (exit code 1)
+================================================================================
+Running 8 tests across 3 suites...
+
+  PASS  PaymentService.test_payment_validation (48ms)
+
+  FAIL  PaymentService.test_payment_creation (421ms)
+    Error: Cannot read property 'validate' of null
+        at PaymentService.processPayment (/home/runner/work/app/src/payment.js:142:15)
+        at Object.test_payment_creation (/home/runner/work/app/tests/payment.spec.js:45:12)
+        at async runTest (internal/test-runner.js:1823:7)
+    [RETRY 1/2] ... FAILED AGAIN
+    Error: Cannot read property 'validate' of null
+        at PaymentService.processPayment (/home/runner/work/app/src/payment.js:142:15)
+
+  FAIL  PaymentService.test_refund_creation (385ms)
+    NullPointerException: Cannot read property 'validate' of null
+        at PaymentService.processRefund (/home/runner/work/app/src/payment.js:278:9)
+        at Object.test_refund_creation (/home/runner/work/app/tests/payment.spec.js:89:4)
+
+  FAIL  PaymentService.test_payment_checkout (312ms)
+    Error: Cannot read property 'validate' of null
+        at PaymentService.processCheckout (/home/runner/work/app/src/payment.js:301:22)
+
+  FAIL  DatabaseService.test_read_connection (301ms)
+    Error: Connection refused to database
+        at DatabaseService.connect (/home/runner/work/app/src/db.js:88:11)
+        at Object.test_read_connection (/home/runner/work/app/tests/database.spec.js:22:5)
+    NETWORK ERROR — ECONNREFUSED 127.0.0.1:5432
+
+  FAIL  DatabaseService.test_write_connection (311ms)
+    Error: Connection refused to database
+        at DatabaseService.connect (/home/runner/work/app/src/db.js:88:11)
+        at Object.test_write_connection (/home/runner/work/app/tests/database.spec.js:41:5)
+
+  PASS  CheckoutFlow.test_checkout_success (843ms)
+
+  FAIL  CheckoutFlow.test_checkout_timeout (1110ms)
+    TimeoutError: Request timeout after 30000ms waiting for payment gateway response
+        at Timeout._onTimeout (/home/runner/work/app/src/checkout.js:567:18)
+        at Object.test_checkout_timeout (/home/runner/work/app/tests/checkout.spec.js:156:3)
+    TIMEOUT — gateway did not respond within 30000ms
+
+--------------------------------------------------------------------------------
+SUMMARY: 6 failed | 2 passed | 8 total
+--------------------------------------------------------------------------------
+
+FAIL
+FAIL
+FAIL
+FAIL
+FAIL
+FAIL
+
+Same stack traces repeated. Same root errors buried in paths, line numbers, and retries.
+Hard to tell: 6 failures — or 3 root causes?

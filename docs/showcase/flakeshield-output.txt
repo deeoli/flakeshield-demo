@@ -1,0 +1,109 @@
+======================================================================
+FLAKESHIELD FAILURE GROUPING REPORT
+======================================================================
+
+SUMMARY
+----------------------------------------------------------------------
+Total Tests:        8
+Failed Tests:       6
+Failure Groups:     3
+Unique Root Causes: 3
+
+RECURRING FAILURE ANALYSIS
+----------------------------------------------------------------------
+New root causes:       0
+Recurring root causes: 3
+
+Signal compression:
+  6 failures -> 3 root causes
+
+Top Priority Group:
+NullPointerException in payment validation
+
+Risk:
+HIGH
+
+Recurring:
+YES
+
+Why it matters:
+Recurring failure affecting multiple tests. This issue appears repeatedly
+and may indicate a systemic problem.
+
+TOP INSIGHTS
+----------------------------------------------------------------------
+
+1. Highest Risk Issue:
+   NullPointerException in payment validation
+
+Reason:
+   Recurring across multiple tests.
+
+2. Stability Signal:
+   3 recurring failure groups detected.
+
+3. Investigation Focus:
+   Start with the highest recurring group.
+
+RISK ANALYSIS
+----------------------------------------------------------------------
+
+Group 1
+----------------------------------------------------------------------
+
+Risk: HIGH (0.93)
+
+Why This Matters:
+Recurring failure affecting multiple tests. This issue appears repeatedly
+and may indicate a systemic problem.
+
+Seen Before: YES
+Occurrences: 7
+Status: RECURRING
+
+Signature:
+NullPointerException in payment validation
+
+Affected Tests:
+  - PaymentService.test_payment_checkout
+  - PaymentService.test_payment_creation
+  - PaymentService.test_refund_creation
+
+Group 2
+----------------------------------------------------------------------
+
+Risk: MEDIUM (0.51)
+
+Why This Matters:
+Failure impacts multiple tests but has limited recurrence history.
+
+Seen Before: YES
+Occurrences: 3
+Status: RECURRING
+
+Signature:
+Connection refused to database
+
+Affected Tests:
+  - DatabaseService.test_read_connection
+  - DatabaseService.test_write_connection
+
+Group 3
+----------------------------------------------------------------------
+
+Risk: LOW (0.36)
+
+Why This Matters:
+New failure with limited impact. Monitor for recurrence.
+
+Seen Before: YES
+Occurrences: 2
+Status: RECURRING
+
+Signature:
+Request timeout after Xms
+
+Affected Tests:
+  - CheckoutFlow.test_checkout_timeout
+
+======================================================================

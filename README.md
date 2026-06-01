@@ -22,6 +22,14 @@ FlakeShield reduces CI noise by:
 3. **Grouping by root cause** — Collapses duplicate failures
 4. **Prioritizing risk** — Surfaces what actually matters
 
+## Before vs After
+
+FlakeShield compresses noisy CI failures into prioritized root-cause analysis.
+
+**[From CI Noise to Signal →](docs/showcase/transformation.md)**
+
+Side-by-side showcase: [raw CI log](docs/showcase/raw-ci.txt) · [FlakeShield output](docs/showcase/flakeshield-output.txt)
+
 ## Quick Demo
 
 ```bash
