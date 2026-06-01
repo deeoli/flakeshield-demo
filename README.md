@@ -22,6 +22,29 @@ FlakeShield reduces CI noise by:
 3. **Grouping by root cause** — Collapses duplicate failures
 4. **Prioritizing risk** — Surfaces what actually matters
 
+## Real Output Examples
+
+### Healthy Run
+
+![Healthy run](docs/images/healthy-run.png)
+
+No failures, no flaky tests, stable history.
+
+### Failure Analysis
+
+![Failure analysis](docs/images/failure-heavy.png)
+
+FlakeShield surfaces recurring failures, flaky behaviour, and high-risk issues.
+
+### PR Comment Output
+
+![PR comment output](docs/images/pr-comment.png)
+
+Compact pull request summaries highlighting what deserves attention first.
+
+- [flake_report.md](./examples/flake_report.md) — full report (Fix First, Overview, Suggested Next Steps)
+- [pr_comment.md](./examples/pr_comment.md) — GitHub-ready PR summary
+
 ## Before vs After
 
 FlakeShield compresses noisy CI failures into prioritized root-cause analysis.
@@ -36,28 +59,25 @@ See how FlakeShield transforms noisy CI output into prioritized investigation gu
 
 **[Complete walkthrough →](docs/walkthrough/flakeshield-walkthrough.md)**
 
-## Quick Demo
+## Run it locally
+
+**Python demo engine** (grouping, memory, risk, explanations):
 
 ```bash
-# Parse, group, and track failure memory
 python src/report.py
-
-# First run (no history yet)
-Detected 3 failure groups
-New root causes: 3
-Recurring root causes: 0
-
-# Second run (same sample-results/junit.xml)
-Detected 3 failure groups
-New root causes: 0
-Recurring root causes: 3
-
-# Verify risk scoring and actionable summaries
-python src/risk.py
-python src/explain.py
-
-# Full report saved to: reports/failure-summary.txt
+# Output: reports/failure-summary.txt
+# Run twice to see recurring failure memory update
 ```
+
+**Full CI demo** (Vitest + GitHub Actions + FlakeShield action):
+
+```bash
+npm install
+npm run test:healthy
+npm run test:flaky
+```
+
+Push to `main` or open a PR to trigger the workflow (`deeoli/flakeshield-action@v0.6.0-beta.1`). Download artifacts for `outputs/flake_report.md` and `outputs/pr_comment.md`.
 
 ## Phase 2 — Failure Memory
 
@@ -132,17 +152,6 @@ python src/explain.py
 - `.github/workflows/flakeshield.yml` – workflow that runs tests twice and calls FlakeShield
 - `audit/demo-runs/` – sample demo outputs for healthy and flaky runs
 
-## How to run locally
-
-```bash
-cd flakeshield-demo
-npm install
-npm run test:healthy
-npm run test:flaky
-```
-
-The `test:healthy` run uses a clean service path. The `test:flaky` run introduces timing and network race conditions.
-
 ## Flaky scenarios implemented
 
 - `fetchTaskStatus()` simulates random network timeout behavior
@@ -166,29 +175,6 @@ The workflow does two runs:
 2. Flaky run: `npm run test:flaky`
 
 In GitHub Actions, FlakeShield compares these runs and surfaces repeated failures.
-
-## Real Output Examples
-
-### Healthy Run
-
-![Healthy run](docs/images/healthy-run.png)
-
-No failures, no flaky tests, stable history.
-
-### Failure Analysis
-
-![Failure analysis](docs/images/failure-heavy.png)
-
-FlakeShield surfaces recurring failures, flaky behaviour, and high-risk issues.
-
-### PR Comment Output
-
-![PR comment output](docs/images/pr-comment.png)
-
-Compact pull request summaries highlighting what deserves attention first.
-
-- [flake_report.md](./examples/flake_report.md)
-- [pr_comment.md](./examples/pr_comment.md)
 
 ---
 
