@@ -6,6 +6,7 @@ from parser import JUnitParser, TestResult
 from grouper import FailureGrouper, FailureGroup
 from history import FailureHistory
 from risk import RiskScorer, RiskAssessment
+from explain import FailureExplainer
 
 
 class ReportGenerator:
@@ -92,14 +93,37 @@ class ReportGenerator:
             lines.append("Signal compression:")
             lines.append(f"  {failed_tests} failures -> {num_groups} root causes")
 
+        recurring_count = 0
+        if history:
+            recurring_count = history.get_summary(list(groups.keys()))[
+                "recurring_root_causes"
+            ]
+
         if scored_groups:
-            top_sig, _top_group, top_risk = scored_groups[0]
+            top_sig, top_group, top_risk = scored_groups[0]
+            if history:
+                top_recurring = history.seen_before(top_sig)
+                top_occ = history.occurrences_for_report(top_sig)
+            else:
+                top_recurring = False
+                top_occ = 1
+            top_why = FailureExplainer.why_this_matters(
+                top_risk.level, top_recurring, top_occ, top_group.count
+            )
             lines.append("")
             lines.append("Top Priority Group:")
             lines.append(top_sig)
             lines.append("")
             lines.append("Risk:")
             lines.append(top_risk.level.value)
+            lines.append("")
+            lines.append("Why it matters:")
+            lines.append(top_why)
+            lines.extend(
+                FailureExplainer.build_top_insights(
+                    scored_groups, recurring_count, history
+                )
+            )
 
         lines.append("")
 
@@ -109,13 +133,24 @@ class ReportGenerator:
             lines.append("")
 
             for idx, (sig, group, risk) in enumerate(scored_groups, 1):
+                if history:
+                    is_recurring = history.seen_before(sig)
+                    occurrence_count = history.occurrences_for_report(sig)
+                else:
+                    is_recurring = False
+                    occurrence_count = 1
+
                 lines.append(f"Group {idx}")
                 lines.append("-" * 70)
                 lines.append("")
                 lines.append(f"Risk: {risk.formatted()}")
                 lines.append("")
-                lines.append("Why:")
-                lines.append(risk.why)
+                lines.append("Why This Matters:")
+                lines.append(
+                    FailureExplainer.why_this_matters(
+                        risk.level, is_recurring, occurrence_count, group.count
+                    )
+                )
                 lines.append("")
 
                 if history:

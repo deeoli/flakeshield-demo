@@ -11,8 +11,8 @@ Unique Root Causes: 3
 
 RECURRING FAILURE ANALYSIS
 ----------------------------------------------------------------------
-New root causes:       3
-Recurring root causes: 0
+New root causes:       0
+Recurring root causes: 3
 
 Signal compression:
   6 failures -> 3 root causes
@@ -21,7 +21,27 @@ Top Priority Group:
 NullPointerException in payment validation
 
 Risk:
-LOW
+MEDIUM
+
+Why it matters:
+Failure impacts multiple tests but has limited recurrence history.
+TOP INSIGHTS
+----------------------------------------------------------------------
+
+1. Highest Risk Issue:
+   NullPointerException in payment validation
+
+Reason:
+   Recurring across multiple tests.
+
+2. Stability Signal:
+   3 recurring failure groups detected.
+
+3. Investigation Focus:
+   Start with the highest recurring group.
+
+Why it matters:
+   Failure impacts multiple tests but has limited recurrence history.
 
 RISK ANALYSIS
 ----------------------------------------------------------------------
@@ -29,19 +49,19 @@ RISK ANALYSIS
 Group 1
 ----------------------------------------------------------------------
 
-Risk: LOW (0.29)
+Risk: MEDIUM (0.49)
 
-Why:
-Multiple tests share the same root cause.
+Why This Matters:
+Failure impacts multiple tests but has limited recurrence history.
 
 Seen Before:
-NO
+YES
 
 Occurrences:
-1
+2
 
 Status:
-NEW
+RECURRING
 
 Signature:
 NullPointerException in payment validation
@@ -54,19 +74,19 @@ Affected Tests:
 Group 2
 ----------------------------------------------------------------------
 
-Risk: LOW (0.22)
+Risk: MEDIUM (0.42)
 
-Why:
-Multiple tests share the same root cause.
+Why This Matters:
+Failure impacts multiple tests but has limited recurrence history.
 
 Seen Before:
-NO
+YES
 
 Occurrences:
-1
+2
 
 Status:
-NEW
+RECURRING
 
 Signature:
 Connection refused to database
@@ -78,19 +98,19 @@ Affected Tests:
 Group 3
 ----------------------------------------------------------------------
 
-Risk: LOW (0.16)
+Risk: MEDIUM (0.36)
 
-Why:
-New failure with limited blast radius.
+Why This Matters:
+Failure impacts multiple tests but has limited recurrence history.
 
 Seen Before:
-NO
+YES
 
 Occurrences:
-1
+2
 
 Status:
-NEW
+RECURRING
 
 Signature:
 Request timeout after Xms

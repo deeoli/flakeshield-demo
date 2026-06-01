@@ -38,8 +38,9 @@ Detected 3 failure groups
 New root causes: 0
 Recurring root causes: 3
 
-# Verify risk scoring
+# Verify risk scoring and actionable summaries
 python src/risk.py
+python src/explain.py
 
 # Full report saved to: reports/failure-summary.txt
 ```
@@ -63,6 +64,28 @@ FlakeShield now:
 
 Goal: Reduce investigation time by surfacing the highest-risk failure groups first.
 
+## Phase 4 — Actionable Summaries
+
+FlakeShield now translates failure data into concise investigation guidance.
+
+Instead of:
+
+```
+Risk: HIGH
+```
+
+Engineers see:
+
+```
+Recurring failure affecting multiple tests.
+```
+
+Verify explanations:
+
+```bash
+python src/explain.py
+```
+
 ## What this repo demonstrates
 
 - **Failure parsing** — Extract test name, class, status, error message from JUnit XML
@@ -70,6 +93,7 @@ Goal: Reduce investigation time by surfacing the highest-risk failure groups fir
 - **Failure grouping** — Group by root cause signature
 - **Failure memory** — Track recurring vs new root causes across runs
 - **Risk prioritization** — Rank failure groups by occurrence, blast radius, and recurrence
+- **Actionable summaries** — Deterministic "why this matters" and top investigation insights
 - **Signal compression** — 6 failures -> 3 root causes
 - GitHub Actions integration with FlakeShield
 - PR comment generation and artifact upload
@@ -84,6 +108,7 @@ Goal: Reduce investigation time by surfacing the highest-risk failure groups fir
   - `grouper.py` – Normalize signatures and group failures by root cause
   - `history.py` – Persist and classify recurring failure signatures
   - `risk.py` – Score and rank failure groups by deterministic risk
+  - `explain.py` – Deterministic investigation guidance and top insights
   - `report.py` – Generate human-readable reports
   - `tasks.js` – Node test fixtures (async/timing scenarios)
 - `data/` – Failure memory store (`failure-history.json`, created/updated by `report.py`)
