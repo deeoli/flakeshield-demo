@@ -5,3 +5,4 @@ outputs/
 *.log
 *.zip
 flakeshield-demo-output/
+.ci-artifacts/

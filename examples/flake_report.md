@@ -2,25 +2,33 @@
 
 - Runs considered: **2**
 
-## 📊 Summary
-- 2 failure groups
-- 0 flaky tests
-- 0 high-risk failures
+## 📊 Overview
+- Total Tests: **10**
+- Failures: **4**
+- Flaky Tests: **0**
+- Failure Groups: **2**
 
 ## 🔥 Fix First
-- **tests/flaky.spec.js::Flaky integration scenarios > validates the timeout signature**
-  - Risk: **LOW** (0.27)
-  - Seen in 1/2 runs
-  - Why this matters: new failure pattern that may indicate a regression.
-  - Preview: Network timeout while calling task service
-  - Fingerprint: `network timeout while calling task service`
+1. **Network timeout while calling task service**
 
-- **tests/flaky.spec.js::Flaky integration scenarios > exercises race behavior**
-  - Risk: **LOW** (0.17)
-  - Seen in 1/2 runs
-  - Why this matters: new failure pattern that may indicate a regression.
-  - Preview: Race condition detected during task fetch
-  - Fingerprint: `race condition detected during task fetch`
+   **Status:** New
+   **Risk:** LOW (0.27)
+   **Seen in:** 1/2 runs
+   **Why this matters:** New failure pattern that may indicate a regression.
+   **Preview:** Network timeout while calling task service
+
+2. **Race condition in task fetch**
+
+   **Status:** New
+   **Risk:** LOW (0.17)
+   **Seen in:** 1/2 runs
+   **Why this matters:** New failure pattern that may indicate a regression.
+   **Preview:** Race condition detected during task fetch
+
+## 🧭 Suggested Next Steps
+
+- Investigate service availability and retry behavior
+- Review async synchronization and timing dependencies
 
 ## 🧠 Known vs Novel
 - Known failures: 0
