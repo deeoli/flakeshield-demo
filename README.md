@@ -30,6 +30,12 @@ FlakeShield compresses noisy CI failures into prioritized root-cause analysis.
 
 Side-by-side showcase: [raw CI log](docs/showcase/raw-ci.txt) · [FlakeShield output](docs/showcase/flakeshield-output.txt)
 
+## Product Walkthrough
+
+See how FlakeShield transforms noisy CI output into prioritized investigation guidance.
+
+**[Complete walkthrough →](docs/walkthrough/flakeshield-walkthrough.md)**
+
 ## Quick Demo
 
 ```bash
