@@ -4,12 +4,16 @@
 
 **The Problem:**
 ```
-Raw CI output: 3 failures
+Raw CI output: 6 failures
 ```
 
 **The Signal:**
 ```
-FlakeShield: 2 root causes
+FlakeShield: 3 root causes
+
+Top Priority:
+NullPointerException in payment validation
+Risk: HIGH
 ```
 
 FlakeShield reduces CI noise by:
@@ -25,14 +29,17 @@ FlakeShield reduces CI noise by:
 python src/report.py
 
 # First run (no history yet)
-Detected 2 failure groups
-New root causes: 2
+Detected 3 failure groups
+New root causes: 3
 Recurring root causes: 0
 
 # Second run (same sample-results/junit.xml)
-Detected 2 failure groups
+Detected 3 failure groups
 New root causes: 0
-Recurring root causes: 2
+Recurring root causes: 3
+
+# Verify risk scoring
+python src/risk.py
 
 # Full report saved to: reports/failure-summary.txt
 ```
@@ -46,13 +53,24 @@ FlakeShield remembers historical failure signatures and distinguishes:
 
 This demonstrates how CI intelligence evolves beyond parsing into historical analysis.
 
+## Phase 3 — Risk Prioritization
+
+FlakeShield now:
+
+- groups failures
+- remembers recurring issues
+- ranks what deserves attention first
+
+Goal: Reduce investigation time by surfacing the highest-risk failure groups first.
+
 ## What this repo demonstrates
 
 - **Failure parsing** — Extract test name, class, status, error message from JUnit XML
 - **Signature normalization** — Remove variable parts (line numbers, paths, timestamps)
 - **Failure grouping** — Group by root cause signature
 - **Failure memory** — Track recurring vs new root causes across runs
-- **Signal compression** — 3 failures -> 2 root causes
+- **Risk prioritization** — Rank failure groups by occurrence, blast radius, and recurrence
+- **Signal compression** — 6 failures -> 3 root causes
 - GitHub Actions integration with FlakeShield
 - PR comment generation and artifact upload
 
@@ -65,10 +83,11 @@ This demonstrates how CI intelligence evolves beyond parsing into historical ana
   - `parser.py` – Parse JUnit XML test results
   - `grouper.py` – Normalize signatures and group failures by root cause
   - `history.py` – Persist and classify recurring failure signatures
+  - `risk.py` – Score and rank failure groups by deterministic risk
   - `report.py` – Generate human-readable reports
   - `tasks.js` – Node test fixtures (async/timing scenarios)
 - `data/` – Failure memory store (`failure-history.json`, created/updated by `report.py`)
-- `sample-results/` – Demo JUnit XML (5 tests, 3 failures, 2 root causes)
+- `sample-results/` – Demo JUnit XML (8 tests, 6 failures, 3 root causes)
 - `reports/` – Generated failure summary reports
 - `tests/` – stable tests and flaky scenario coverage
 - `.github/workflows/flakeshield.yml` – workflow that runs tests twice and calls FlakeShield

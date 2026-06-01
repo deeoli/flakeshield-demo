@@ -1,44 +1,78 @@
 """Generate failure summary report."""
 
 import os
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 from parser import JUnitParser, TestResult
 from grouper import FailureGrouper, FailureGroup
 from history import FailureHistory
+from risk import RiskScorer, RiskAssessment
 
 
 class ReportGenerator:
     """Generate human-readable failure reports."""
 
     @staticmethod
+    def _score_groups(
+        groups: Dict[str, FailureGroup],
+        history: Optional[FailureHistory],
+    ) -> List[Tuple[str, FailureGroup, RiskAssessment]]:
+        """Score and sort failure groups by risk (highest first)."""
+        scored = []
+        for sig, group in groups.items():
+            if history:
+                occurrence_count = history.occurrences_for_report(sig)
+                is_recurring = history.seen_before(sig)
+            else:
+                occurrence_count = 1
+                is_recurring = False
+            risk = RiskScorer.calculate(
+                occurrence_count, group.count, is_recurring
+            )
+            scored.append((sig, group, risk))
+        return RiskScorer.sort_groups(scored)
+
+    @staticmethod
+    def _history_lines(sig: str, history: FailureHistory) -> List[str]:
+        lines = []
+        if history.seen_before(sig):
+            lines.append("Seen Before:")
+            lines.append("YES")
+            lines.append("")
+            lines.append("Occurrences:")
+            lines.append(str(history.occurrences_for_report(sig)))
+            lines.append("")
+            lines.append("Status:")
+            lines.append("RECURRING")
+        else:
+            lines.append("Seen Before:")
+            lines.append("NO")
+            lines.append("")
+            lines.append("Occurrences:")
+            lines.append("1")
+            lines.append("")
+            lines.append("Status:")
+            lines.append("NEW")
+        return lines
+
+    @staticmethod
     def generate_text_report(
         results: List[TestResult],
         groups: Dict[str, FailureGroup],
-        history: "FailureHistory" = None,
+        history: Optional[FailureHistory] = None,
     ) -> str:
-        """Generate plain-text failure summary report.
-
-        Args:
-            results: List of test results
-            groups: Dict of failure groups
-            history: Optional FailureHistory tracker
-
-        Returns:
-            Formatted report string
-        """
+        """Generate plain-text failure summary report."""
         total_tests = len(results)
         failed_tests = sum(1 for r in results if r.status == "fail")
         num_groups = len(groups)
+        scored_groups = ReportGenerator._score_groups(groups, history)
 
         lines = []
 
-        # Header
         lines.append("=" * 70)
         lines.append("FLAKESHIELD FAILURE GROUPING REPORT")
         lines.append("=" * 70)
         lines.append("")
 
-        # Summary
         lines.append("SUMMARY")
         lines.append("-" * 70)
         lines.append(f"Total Tests:        {total_tests}")
@@ -46,7 +80,6 @@ class ReportGenerator:
         lines.append(f"Failure Groups:     {num_groups}")
         lines.append(f"Unique Root Causes: {num_groups}")
 
-        # History summary if available
         if history:
             current_sigs = list(groups.keys())
             summary = history.get_summary(current_sigs)
@@ -59,41 +92,42 @@ class ReportGenerator:
             lines.append("Signal compression:")
             lines.append(f"  {failed_tests} failures -> {num_groups} root causes")
 
+        if scored_groups:
+            top_sig, _top_group, top_risk = scored_groups[0]
+            lines.append("")
+            lines.append("Top Priority Group:")
+            lines.append(top_sig)
+            lines.append("")
+            lines.append("Risk:")
+            lines.append(top_risk.level.value)
+
         lines.append("")
 
-        # Failure groups
-        if groups:
-            lines.append("FAILURE GROUPS")
+        if scored_groups:
+            lines.append("RISK ANALYSIS")
             lines.append("-" * 70)
             lines.append("")
 
-            for idx, (sig, group) in enumerate(
-                sorted(groups.items(), key=lambda x: x[1].count, reverse=True), 1
-            ):
+            for idx, (sig, group, risk) in enumerate(scored_groups, 1):
                 lines.append(f"Group {idx}")
                 lines.append("-" * 70)
-                lines.append(f"Signature:")
-                lines.append(f"  {sig}")
+                lines.append("")
+                lines.append(f"Risk: {risk.formatted()}")
+                lines.append("")
+                lines.append("Why:")
+                lines.append(risk.why)
                 lines.append("")
 
-                # Add history if available (pre-run state, before persist)
                 if history:
-                    lines.append("History:")
-                    if history.seen_before(sig):
-                        lines.append("  Seen Before: YES")
-                        lines.append(
-                            f"  Occurrences: {history.occurrences_for_report(sig)}"
-                        )
-                        lines.append("  Status: RECURRING")
-                    else:
-                        lines.append("  Seen Before: NO")
-                        lines.append("  Occurrences: 1")
-                        lines.append("  Status: NEW")
+                    lines.extend(ReportGenerator._history_lines(sig, history))
                     lines.append("")
 
-                lines.append(f"Affected Tests: ({group.count})")
+                lines.append("Signature:")
+                lines.append(sig)
+                lines.append("")
+                lines.append("Affected Tests:")
                 for test in sorted(group.affected_tests):
-                    lines.append(f"  • {test}")
+                    lines.append(f"  - {test}")
                 lines.append("")
         else:
             lines.append("NO FAILURES DETECTED")
@@ -105,19 +139,13 @@ class ReportGenerator:
 
     @staticmethod
     def save_report(report_text: str, output_file: str) -> None:
-        """Save report to file.
-
-        Args:
-            report_text: Report content
-            output_file: Output file path
-        """
+        """Save report to file."""
         os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(report_text)
 
 
 if __name__ == "__main__":
-    # Demo pipeline with history tracking
     print("Parsing JUnit XML...")
     results = JUnitParser.parse("sample-results/junit.xml")
     print(f"  [OK] Parsed {len(results)} tests")
@@ -135,6 +163,15 @@ if __name__ == "__main__":
     print(f"\nDetected {len(groups)} failure groups")
     print(f"  New root causes: {summary['new_root_causes']}")
     print(f"  Recurring root causes: {summary['recurring_root_causes']}")
+
+    scored = ReportGenerator._score_groups(groups, history)
+    if scored:
+        top_sig, _, top_risk = scored[0]
+        print(f"\nTop priority: {top_sig}")
+        print(f"  Risk: {top_risk.formatted()}")
+        print("\nRisk order:")
+        for sig, _, risk in scored:
+            print(f"  {risk.level.value:6} ({risk.score:.2f})  {sig[:50]}")
 
     print("\nGenerating report...")
     report = ReportGenerator.generate_text_report(results, groups, history)

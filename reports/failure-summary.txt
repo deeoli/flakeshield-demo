@@ -4,47 +4,98 @@ FLAKESHIELD FAILURE GROUPING REPORT
 
 SUMMARY
 ----------------------------------------------------------------------
-Total Tests:        5
-Failed Tests:       3
-Failure Groups:     2
-Unique Root Causes: 2
+Total Tests:        8
+Failed Tests:       6
+Failure Groups:     3
+Unique Root Causes: 3
 
 RECURRING FAILURE ANALYSIS
 ----------------------------------------------------------------------
-New root causes:       0
-Recurring root causes: 2
+New root causes:       3
+Recurring root causes: 0
 
 Signal compression:
-  3 failures -> 2 root causes
+  6 failures -> 3 root causes
 
-FAILURE GROUPS
+Top Priority Group:
+NullPointerException in payment validation
+
+Risk:
+LOW
+
+RISK ANALYSIS
 ----------------------------------------------------------------------
 
 Group 1
 ----------------------------------------------------------------------
+
+Risk: LOW (0.29)
+
+Why:
+Multiple tests share the same root cause.
+
+Seen Before:
+NO
+
+Occurrences:
+1
+
+Status:
+NEW
+
 Signature:
-  NullPointerException in payment validation
+NullPointerException in payment validation
 
-History:
-  Seen Before: YES
-  Occurrences: 2
-  Status: RECURRING
-
-Affected Tests: (2)
-  • PaymentService.test_payment_creation
-  • PaymentService.test_refund_creation
+Affected Tests:
+  - PaymentService.test_payment_checkout
+  - PaymentService.test_payment_creation
+  - PaymentService.test_refund_creation
 
 Group 2
 ----------------------------------------------------------------------
+
+Risk: LOW (0.22)
+
+Why:
+Multiple tests share the same root cause.
+
+Seen Before:
+NO
+
+Occurrences:
+1
+
+Status:
+NEW
+
 Signature:
-  Request timeout after Xms
+Connection refused to database
 
-History:
-  Seen Before: YES
-  Occurrences: 2
-  Status: RECURRING
+Affected Tests:
+  - DatabaseService.test_read_connection
+  - DatabaseService.test_write_connection
 
-Affected Tests: (1)
-  • CheckoutFlow.test_checkout_timeout
+Group 3
+----------------------------------------------------------------------
+
+Risk: LOW (0.16)
+
+Why:
+New failure with limited blast radius.
+
+Seen Before:
+NO
+
+Occurrences:
+1
+
+Status:
+NEW
+
+Signature:
+Request timeout after Xms
+
+Affected Tests:
+  - CheckoutFlow.test_checkout_timeout
 
 ======================================================================

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="demo-tests" tests="5" failures="3" errors="0" time="2.543">
-    <testsuite name="tests/payment.spec.js" timestamp="2026-05-31T14:22:10.000Z" tests="3" failures="2" errors="0" time="0.856">
+<testsuites name="demo-tests" tests="8" failures="6" errors="0" time="3.821">
+    <testsuite name="tests/payment.spec.js" timestamp="2026-05-31T14:22:10.000Z" tests="4" failures="3" errors="0" time="1.256">
         <testcase classname="PaymentService" name="test_payment_creation" time="0.421">
             <failure message="NullPointerException in payment validation" type="Error">
 Error: Cannot read property 'validate' of null
     at PaymentService.processPayment (/home/runner/work/app/src/payment.js:142)
     at Object.test_payment_creation (/home/runner/work/app/tests/payment.spec.js:45)
-    at async runTest (internal/test-runner.js:1823:2026-05-31T14:22:10.421Z)
             </failure>
         </testcase>
         <testcase classname="PaymentService" name="test_refund_creation" time="0.385">
@@ -14,20 +13,41 @@ Error: Cannot read property 'validate' of null
 Error: Cannot read property 'validate' of null
     at PaymentService.processRefund (/home/runner/work/app/src/payment.js:278)
     at Object.test_refund_creation (/home/runner/work/app/tests/payment.spec.js:89)
-    at async runTest (internal/test-runner.js:1823:2026-05-31T14:22:10.385Z)
+            </failure>
+        </testcase>
+        <testcase classname="PaymentService" name="test_payment_checkout" time="0.312">
+            <failure message="NullPointerException in payment validation" type="Error">
+Error: Cannot read property 'validate' of null
+    at PaymentService.processCheckout (/home/runner/work/app/src/payment.js:301)
+    at Object.test_payment_checkout (/home/runner/work/app/tests/payment.spec.js:112)
             </failure>
         </testcase>
         <testcase classname="PaymentService" name="test_payment_validation" time="0.050">
         </testcase>
     </testsuite>
-    <testsuite name="tests/checkout.spec.js" timestamp="2026-05-31T14:22:11.000Z" tests="2" failures="1" errors="0" time="1.687">
+    <testsuite name="tests/database.spec.js" timestamp="2026-05-31T14:22:10.500Z" tests="2" failures="2" errors="0" time="0.612">
+        <testcase classname="DatabaseService" name="test_read_connection" time="0.301">
+            <failure message="Connection refused to database" type="Error">
+Error: Connection refused to database
+    at DatabaseService.connect (/home/runner/work/app/src/db.js:88)
+    at Object.test_read_connection (/home/runner/work/app/tests/database.spec.js:22)
+            </failure>
+        </testcase>
+        <testcase classname="DatabaseService" name="test_write_connection" time="0.311">
+            <failure message="Connection refused to database" type="Error">
+Error: Connection refused to database
+    at DatabaseService.connect (/home/runner/work/app/src/db.js:88)
+    at Object.test_write_connection (/home/runner/work/app/tests/database.spec.js:41)
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/checkout.spec.js" timestamp="2026-05-31T14:22:11.000Z" tests="2" failures="1" errors="0" time="1.953">
         <testcase classname="CheckoutFlow" name="test_checkout_success" time="0.843">
         </testcase>
-        <testcase classname="CheckoutFlow" name="test_checkout_timeout" time="1.402">
+        <testcase classname="CheckoutFlow" name="test_checkout_timeout" time="1.110">
             <failure message="Request timeout after 30000ms" type="Error">
 TimeoutError: Request timeout after 30000ms waiting for payment gateway response
     at Timeout._onTimeout (/home/runner/work/app/src/checkout.js:567)
-    at listOnTimeout (internal/timers.js:549:2026-05-31T14:22:11.402Z)
     at Object.test_checkout_timeout (/home/runner/work/app/tests/checkout.spec.js:156)
             </failure>
         </testcase>
