@@ -9,6 +9,14 @@ Failed Tests:       3
 Failure Groups:     2
 Unique Root Causes: 2
 
+RECURRING FAILURE ANALYSIS
+----------------------------------------------------------------------
+New root causes:       0
+Recurring root causes: 2
+
+Signal compression:
+  3 failures -> 2 root causes
+
 FAILURE GROUPS
 ----------------------------------------------------------------------
 
@@ -17,16 +25,26 @@ Group 1
 Signature:
   NullPointerException in payment validation
 
+History:
+  Seen Before: YES
+  Occurrences: 2
+  Status: RECURRING
+
 Affected Tests: (2)
-  • PaymentService.test_payment_creation
-  • PaymentService.test_refund_creation
+  â€¢ PaymentService.test_payment_creation
+  â€¢ PaymentService.test_refund_creation
 
 Group 2
 ----------------------------------------------------------------------
 Signature:
   Request timeout after Xms
 
+History:
+  Seen Before: YES
+  Occurrences: 2
+  Status: RECURRING
+
 Affected Tests: (1)
-  • CheckoutFlow.test_checkout_timeout
+  â€¢ CheckoutFlow.test_checkout_timeout
 
 ======================================================================

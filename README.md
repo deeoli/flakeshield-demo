@@ -21,23 +21,38 @@ FlakeShield reduces CI noise by:
 ## Quick Demo
 
 ```bash
-# Parse and group failures
+# Parse, group, and track failure memory
 python src/report.py
 
-# Output
+# First run (no history yet)
 Detected 2 failure groups
-3 failed tests
-2 unique root causes
+New root causes: 2
+Recurring root causes: 0
+
+# Second run (same sample-results/junit.xml)
+Detected 2 failure groups
+New root causes: 0
+Recurring root causes: 2
 
 # Full report saved to: reports/failure-summary.txt
 ```
+
+## Phase 2 — Failure Memory
+
+FlakeShield remembers historical failure signatures and distinguishes:
+
+- New failures
+- Recurring failures
+
+This demonstrates how CI intelligence evolves beyond parsing into historical analysis.
 
 ## What this repo demonstrates
 
 - **Failure parsing** — Extract test name, class, status, error message from JUnit XML
 - **Signature normalization** — Remove variable parts (line numbers, paths, timestamps)
 - **Failure grouping** — Group by root cause signature
-- **Signal compression** — 3 failures → 2 root causes
+- **Failure memory** — Track recurring vs new root causes across runs
+- **Signal compression** — 3 failures -> 2 root causes
 - GitHub Actions integration with FlakeShield
 - PR comment generation and artifact upload
 
@@ -46,11 +61,13 @@ Detected 2 failure groups
 
 ## Repo structure
 
-- `src/` – failure grouping pipeline:
+- `src/` – failure intelligence pipeline:
   - `parser.py` – Parse JUnit XML test results
   - `grouper.py` – Normalize signatures and group failures by root cause
+  - `history.py` – Persist and classify recurring failure signatures
   - `report.py` – Generate human-readable reports
   - `tasks.js` – Node test fixtures (async/timing scenarios)
+- `data/` – Failure memory store (`failure-history.json`, created/updated by `report.py`)
 - `sample-results/` – Demo JUnit XML (5 tests, 3 failures, 2 root causes)
 - `reports/` – Generated failure summary reports
 - `tests/` – stable tests and flaky scenario coverage
