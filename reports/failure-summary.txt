@@ -1,0 +1,32 @@
+======================================================================
+FLAKESHIELD FAILURE GROUPING REPORT
+======================================================================
+
+SUMMARY
+----------------------------------------------------------------------
+Total Tests:        5
+Failed Tests:       3
+Failure Groups:     2
+Unique Root Causes: 2
+
+FAILURE GROUPS
+----------------------------------------------------------------------
+
+Group 1
+----------------------------------------------------------------------
+Signature:
+  NullPointerException in payment validation
+
+Affected Tests: (2)
+  • PaymentService.test_payment_creation
+  • PaymentService.test_refund_creation
+
+Group 2
+----------------------------------------------------------------------
+Signature:
+  Request timeout after Xms
+
+Affected Tests: (1)
+  • CheckoutFlow.test_checkout_timeout
+
+======================================================================

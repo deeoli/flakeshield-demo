@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="demo-tests" tests="5" failures="3" errors="0" time="2.543">
+    <testsuite name="tests/payment.spec.js" timestamp="2026-05-31T14:22:10.000Z" tests="3" failures="2" errors="0" time="0.856">
+        <testcase classname="PaymentService" name="test_payment_creation" time="0.421">
+            <failure message="NullPointerException in payment validation" type="Error">
+Error: Cannot read property 'validate' of null
+    at PaymentService.processPayment (/home/runner/work/app/src/payment.js:142)
+    at Object.test_payment_creation (/home/runner/work/app/tests/payment.spec.js:45)
+    at async runTest (internal/test-runner.js:1823:2026-05-31T14:22:10.421Z)
+            </failure>
+        </testcase>
+        <testcase classname="PaymentService" name="test_refund_creation" time="0.385">
+            <failure message="NullPointerException in payment validation" type="Error">
+Error: Cannot read property 'validate' of null
+    at PaymentService.processRefund (/home/runner/work/app/src/payment.js:278)
+    at Object.test_refund_creation (/home/runner/work/app/tests/payment.spec.js:89)
+    at async runTest (internal/test-runner.js:1823:2026-05-31T14:22:10.385Z)
+            </failure>
+        </testcase>
+        <testcase classname="PaymentService" name="test_payment_validation" time="0.050">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/checkout.spec.js" timestamp="2026-05-31T14:22:11.000Z" tests="2" failures="1" errors="0" time="1.687">
+        <testcase classname="CheckoutFlow" name="test_checkout_success" time="0.843">
+        </testcase>
+        <testcase classname="CheckoutFlow" name="test_checkout_timeout" time="1.402">
+            <failure message="Request timeout after 30000ms" type="Error">
+TimeoutError: Request timeout after 30000ms waiting for payment gateway response
+    at Timeout._onTimeout (/home/runner/work/app/src/checkout.js:567)
+    at listOnTimeout (internal/timers.js:549:2026-05-31T14:22:11.402Z)
+    at Object.test_checkout_timeout (/home/runner/work/app/tests/checkout.spec.js:156)
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>

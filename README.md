@@ -1,13 +1,43 @@
 # FlakeShield Demo
 
-A small, realistic Node + Vitest demo repository built to show FlakeShield value immediately.
+## What is FlakeShield?
+
+**The Problem:**
+```
+Raw CI output: 3 failures
+```
+
+**The Signal:**
+```
+FlakeShield: 2 root causes
+```
+
+FlakeShield reduces CI noise by:
+1. **Parsing test results** — Extracts failure data from JUnit XML
+2. **Normalizing signatures** — Removes noise (line numbers, paths, timestamps)
+3. **Grouping by root cause** — Collapses duplicate failures
+4. **Prioritizing risk** — Surfaces what actually matters
+
+## Quick Demo
+
+```bash
+# Parse and group failures
+python src/report.py
+
+# Output
+Detected 2 failure groups
+3 failed tests
+2 unique root causes
+
+# Full report saved to: reports/failure-summary.txt
+```
 
 ## What this repo demonstrates
 
-- Healthy test coverage for core logic
-- Intentional flaky async/timing tests
-- Recurring failures with repeated failure patterns
-- Semantic grouping of timeout and network issues
+- **Failure parsing** — Extract test name, class, status, error message from JUnit XML
+- **Signature normalization** — Remove variable parts (line numbers, paths, timestamps)
+- **Failure grouping** — Group by root cause signature
+- **Signal compression** — 3 failures → 2 root causes
 - GitHub Actions integration with FlakeShield
 - PR comment generation and artifact upload
 
@@ -16,7 +46,13 @@ A small, realistic Node + Vitest demo repository built to show FlakeShield value
 
 ## Repo structure
 
-- `src/` – tiny task helpers and async service simulation
+- `src/` – failure grouping pipeline:
+  - `parser.py` – Parse JUnit XML test results
+  - `grouper.py` – Normalize signatures and group failures by root cause
+  - `report.py` – Generate human-readable reports
+  - `tasks.js` – Node test fixtures (async/timing scenarios)
+- `sample-results/` – Demo JUnit XML (5 tests, 3 failures, 2 root causes)
+- `reports/` – Generated failure summary reports
 - `tests/` – stable tests and flaky scenario coverage
 - `.github/workflows/flakeshield.yml` – workflow that runs tests twice and calls FlakeShield
 - `audit/demo-runs/` – sample demo outputs for healthy and flaky runs
