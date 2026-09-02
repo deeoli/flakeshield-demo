@@ -6,3 +6,5 @@ outputs/
 *.zip
 flakeshield-demo-output/
 .ci-artifacts/
+__pycache__/
+data/failure-history.json
